@@ -2,9 +2,11 @@ services:
   - type: web
     name: photo-backend
     env: node
+    plan: free
     rootDir: backend
     buildCommand: npm ci
     startCommand: node server.js
+    healthCheckPath: /health
     envVars:
       - key: MONGO_URI
         sync: false
@@ -20,6 +22,7 @@ services:
   - type: web
     name: photo-frontend
     env: static
+    plan: free
     rootDir: frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
