@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/photosdb
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in your .env file before running}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:4000
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:

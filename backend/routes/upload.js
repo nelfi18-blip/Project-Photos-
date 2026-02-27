@@ -1,11 +1,11 @@
 import express from "express";
 import fs from "fs";
 import multer from "multer";
-import cloudinary from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 import Photo from "../models/Photo.js";
 import auth from "../middleware/auth.js";
 
-cloudinary.v2.config({
+cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
@@ -16,7 +16,7 @@ const upload = multer({ dest: "temp/" });
 
 router.post("/", auth, upload.single("image"), async (req, res) => {
   try {
-    const result = await cloudinary.v2.uploader.upload(req.file.path, {
+    const result = await cloudinary.uploader.upload(req.file.path, {
       transformation: [{
         overlay: {
           font_family: "Arial",
