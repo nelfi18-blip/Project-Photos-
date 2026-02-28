@@ -13,6 +13,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/health", (_req, res) => res.json({ status: "ok" }));
+
 const apiLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 20 });
 
@@ -27,4 +29,5 @@ app.use("/upload", apiLimiter, uploadRoutes);
 app.use("/photos", apiLimiter, photoRoutes);
 app.use("/share", apiLimiter, shareRoutes);
 
-app.listen(4000, () => console.log("Backend running"));
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));

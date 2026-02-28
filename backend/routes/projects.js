@@ -7,16 +7,16 @@ import axios from "axios";
 
 const router = express.Router();
 
-router.get("/", auth, async (_, res) => {
-  res.json(await Project.find());
+router.get("/", auth, async (req, res) => {
+  res.json(await Project.find({ owner: req.user.id }));
 });
 
 router.post("/", auth, async (req, res) => {
-  res.json(await Project.create({ name: req.body.name }));
+  res.json(await Project.create({ name: req.body.name, owner: req.user.id }));
 });
 
 router.get("/:id/download", auth, async (req, res) => {
-  const project = await Project.findById(req.params.id);
+  const project = await Project.findOne({ _id: req.params.id, owner: req.user.id });
   if (!project) return res.status(404).json({ error: "Project not found" });
   const photos = await Photo.find({ projectId: project._id });
 
