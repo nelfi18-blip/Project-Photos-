@@ -44,37 +44,74 @@ export default function Gallery() {
   };
 
   return (
-    <div style={{ maxWidth: 800, margin: "40px auto", padding: 24 }}>
-      <button onClick={() => navigate("/projects")} style={{ marginBottom: 16 }}>
-        ← Back
-      </button>
-      <h2>Gallery</h2>
-      <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-        <label style={{ padding: "8px 16px", background: "#007bff", color: "#fff", cursor: "pointer" }}>
-          {uploading ? "Uploading…" : "Upload Photo"}
-          <input type="file" accept="image/*" onChange={upload} style={{ display: "none" }} />
-        </label>
-        <button onClick={download}>Download ZIP</button>
-        <button onClick={share}>Share Link</button>
-      </div>
-      {shareUrl && (
-        <p>
-          Share URL: <a href={shareUrl}>{shareUrl}</a>
-        </p>
-      )}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
-        {photos.map((p) => (
-          <div key={p._id} style={{ position: "relative" }}>
-            <img src={p.imageUrl} alt="" style={{ width: "100%", height: 160, objectFit: "cover" }} />
-            <button
-              onClick={() => remove(p._id)}
-              style={{ position: "absolute", top: 4, right: 4, background: "red", color: "#fff", border: "none", cursor: "pointer" }}
-            >
-              ✕
-            </button>
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
+          <button onClick={() => navigate("/projects")} className="btn-secondary text-xs px-3 py-2">
+            ← Back
+          </button>
+          <h1 className="text-lg font-bold">🖼️ Gallery</h1>
+        </div>
+      </header>
+
+      <main className="max-w-2xl mx-auto px-4 py-6 space-y-4">
+        {/* Actions */}
+        <div className="grid grid-cols-3 gap-2">
+          <label className={`btn-primary justify-center ${uploading ? "opacity-50 cursor-not-allowed" : ""}`}>
+            {uploading ? "Uploading…" : (
+              <span className="flex items-center gap-1"><span>📷</span> Upload</span>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              onChange={upload}
+              disabled={uploading}
+              className="hidden"
+            />
+          </label>
+          <button onClick={download} className="btn-secondary text-sm">
+            ⬇ ZIP
+          </button>
+          <button onClick={share} className="btn-secondary text-sm">
+            🔗 Share
+          </button>
+        </div>
+
+        {shareUrl && (
+          <div className="card text-sm break-all">
+            <span className="font-medium text-gray-600">Share URL: </span>
+            <a href={shareUrl} className="text-brand underline">{shareUrl}</a>
           </div>
-        ))}
-      </div>
+        )}
+
+        {/* Photo grid */}
+        {photos.length === 0 ? (
+          <div className="card text-center text-gray-400 py-12">
+            <div className="text-3xl mb-2">📭</div>
+            <p className="text-sm">No photos yet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {photos.map((p) => (
+              <div key={p._id} className="relative rounded-xl overflow-hidden shadow-sm bg-white border border-gray-100">
+                <img
+                  src={p.imageUrl}
+                  alt=""
+                  className="w-full h-36 object-cover"
+                  loading="lazy"
+                />
+                <button
+                  onClick={() => remove(p._id)}
+                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs leading-none shadow"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </main>
     </div>
   );
 }
