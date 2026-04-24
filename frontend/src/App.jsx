@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Projects from "./pages/Projects";
 import Gallery from "./pages/Gallery";
 import ShareGallery from "./pages/ShareGallery";
+import ProjectPhotos from "./pages/ProjectPhotos";
 
 const PrivateRoute = ({ children }) => {
   return localStorage.getItem("token") ? children : <Navigate to="/login" />;
@@ -31,6 +32,7 @@ export default function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/project-photos" element={<ProjectPhotos />} />
         <Route path="*" element={<Navigate to="/projects" />} />
       </Routes>
     </BrowserRouter>
