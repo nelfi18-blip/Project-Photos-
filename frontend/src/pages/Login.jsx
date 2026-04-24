@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API } from "../services/api";
+import { supabase } from "../services/supabase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -23,6 +24,11 @@ export default function Login() {
       }
       const data = await res.json();
       localStorage.setItem("token", data.token);
+      try {
+        await supabase.auth.signInWithPassword({ email, password });
+      } catch {
+        // Supabase session is best-effort; backend auth already succeeded
+      }
       navigate("/projects");
     } catch {
       setError("Connection error");
