@@ -31,32 +31,43 @@ export default function Projects() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: "40px auto", padding: 24 }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h2>Projects</h2>
-        <button onClick={logout}>Logout</button>
-      </div>
-      <form onSubmit={create} style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-        <input
-          placeholder="Project name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          style={{ flex: 1, padding: 8 }}
-        />
-        <button type="submit">Create</button>
-      </form>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {projects.map((p) => (
-          <li
-            key={p._id}
-            onClick={() => navigate(`/projects/${p._id}`)}
-            style={{ padding: 12, border: "1px solid #ccc", marginBottom: 8, cursor: "pointer" }}
-          >
-            {p.name}
-          </li>
-        ))}
-      </ul>
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+          <h1 className="text-lg font-bold">📁 Projects</h1>
+          <button onClick={logout} className="btn-secondary text-xs px-3 py-2">
+            Logout
+          </button>
+        </div>
+      </header>
+
+      <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+        <form onSubmit={create} className="flex gap-2">
+          <input
+            placeholder="New project name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="input"
+          />
+          <button type="submit" className="btn-primary whitespace-nowrap">
+            Create
+          </button>
+        </form>
+
+        <ul className="space-y-2">
+          {projects.map((p) => (
+            <li
+              key={p._id}
+              onClick={() => navigate(`/projects/${p._id}`)}
+              className="card flex items-center justify-between cursor-pointer hover:bg-gray-50 active:bg-gray-100"
+            >
+              <span className="font-medium">{p.name}</span>
+              <span className="text-gray-400 text-lg">›</span>
+            </li>
+          ))}
+        </ul>
+      </main>
     </div>
   );
 }
