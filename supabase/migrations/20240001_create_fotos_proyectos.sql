@@ -4,7 +4,7 @@
 -- ============================================================
 
 -- 1. Table -------------------------------------------------------
-create table if not exists fotos_proyectos (
+create table if not exists public.fotos_proyectos (
   id uuid default uuid_generate_v4() primary key,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   url_foto text not null,
@@ -15,14 +15,14 @@ create table if not exists fotos_proyectos (
 
 -- Index for the gallery query (last 10 by date)
 create index if not exists fotos_proyectos_created_at_idx
-  on fotos_proyectos (created_at desc);
+  on public.fotos_proyectos (created_at desc);
 
 -- Habilitar seguridad
-alter table fotos_proyectos enable row level security;
+alter table public.fotos_proyectos enable row level security;
 
-create policy "Lectura para todos" on fotos_proyectos for select using (true);
-create policy "Inserción para autenticados" on fotos_proyectos for insert with check (auth.uid() = subido_por);
-create policy "Eliminar propias fotos" on fotos_proyectos for delete using (auth.uid() = subido_por);
+create policy "Lectura para todos" on public.fotos_proyectos for select using (true);
+create policy "Inserción para autenticados" on public.fotos_proyectos for insert with check (auth.uid() = subido_por);
+create policy "Eliminar propias fotos" on public.fotos_proyectos for delete using (auth.uid() = subido_por);
 
 
 -- 2. Storage bucket ----------------------------------------------
