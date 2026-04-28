@@ -2,6 +2,9 @@
 
 A full-stack photo management application with a Node.js/Express backend and a React/Vite PWA frontend.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI/CD Pipeline](https://github.com/nelfi18-blip/Project-Photos-/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/nelfi18-blip/Project-Photos-/actions)
+
 ## Features
 
 - JWT authentication (register & login)
@@ -115,7 +118,23 @@ Open **http://localhost:5173** in your browser.
 
 ## Environment Variables
 
-See `backend/.env.example` for required variables:
+### Backend (`backend/.env.example`)
+
 - `MONGO_URI` – MongoDB connection string
 - `JWT_SECRET` – secret for signing tokens
 - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` – Cloudinary credentials
+- `SUPABASE_URL` – (Optional) Supabase project URL if using Supabase features
+
+### Frontend (`frontend/.env.example`)
+
+- `VITE_API_URL` – Backend API URL (e.g., `http://localhost:4000`)
+- `VITE_SUPABASE_URL` – (Optional) Supabase project URL
+- `VITE_SUPABASE_ANON_KEY` – (Optional) Supabase anonymous key
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
