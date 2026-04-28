@@ -5,35 +5,24 @@
 
 -- 1. Table -------------------------------------------------------
 create table if not exists public.fotos_proyectos (
-  id            uuid primary key default gen_random_uuid(),
-  proyecto_nombre text not null,
-  storage_path  text not null,
-  image_url     text not null,
-  uploaded_by   text,                  -- user email
-  created_at    timestamptz not null default now()
+  id uuid default gen_random_uuid() primary key,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  url_foto text not null,
+  nombre_proyecto text,
+  subido_por uuid references auth.users(id),
+  storage_path text
 );
 
 -- Index for the gallery query (last 10 by date)
 create index if not exists fotos_proyectos_created_at_idx
   on public.fotos_proyectos (created_at desc);
 
--- Row-Level Security (RLS) – enable but allow anon read and authenticated insert
+-- Habilitar seguridad
 alter table public.fotos_proyectos enable row level security;
 
--- Anyone (including anon) can read the photos
-create policy "Public read fotos_proyectos"
-  on public.fotos_proyectos for select
-  using (true);
-
--- Only authenticated users can insert
-create policy "Authenticated insert fotos_proyectos"
-  on public.fotos_proyectos for insert
-  with check (auth.role() = 'authenticated');
-
--- Only the uploader can delete their own photos
-create policy "Owner delete fotos_proyectos"
-  on public.fotos_proyectos for delete
-  using (auth.email() = uploaded_by);
+create policy "Lectura para todos" on public.fotos_proyectos for select using (true);
+create policy "Inserción para autenticados" on public.fotos_proyectos for insert with check (auth.role() = 'authenticated' and auth.uid() = subido_por);
+create policy "Eliminar propias fotos" on public.fotos_proyectos for delete using (auth.uid() = subido_por);
 
 
 -- 2. Storage bucket ----------------------------------------------
