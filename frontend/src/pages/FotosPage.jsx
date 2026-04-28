@@ -71,6 +71,7 @@ export default function FotosPage() {
       // Insert row in fotos_proyectos
       const { error: insertErr } = await supabase.from(TABLE).insert({
         nombre_proyecto: projectName.trim(),
+        storage_path: path,
         url_foto: urlData.publicUrl,
         subido_por: user.id,
       });
