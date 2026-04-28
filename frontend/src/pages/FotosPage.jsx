@@ -179,7 +179,7 @@ export default function FotosPage() {
                     loading="lazy"
                   />
                   <div className="p-2">
-                    <p className="text-xs font-medium text-gray-700 truncate">{photo.nombre_proyecto}</p>
+                    <p className="text-xs font-medium text-gray-700 truncate">{photo.nombre_proyecto || 'Sin nombre'}</p>
                     <p className="text-xs text-gray-300 mt-0.5">
                       {new Date(photo.created_at).toLocaleDateString()}
                     </p>
