@@ -70,10 +70,9 @@ export default function FotosPage() {
 
       // Insert row in fotos_proyectos
       const { error: insertErr } = await supabase.from(TABLE).insert({
-        proyecto_nombre: projectName.trim(),
-        storage_path: path,
-        image_url: urlData.publicUrl,
-        uploaded_by: user.email,
+        nombre_proyecto: projectName.trim(),
+        url_foto: urlData.publicUrl,
+        subido_por: user.id,
       });
 
       if (insertErr) throw insertErr;
@@ -173,14 +172,13 @@ export default function FotosPage() {
               {photos.map((photo) => (
                 <div key={photo.id} className="rounded-xl overflow-hidden shadow-sm border border-gray-100 bg-white">
                   <img
-                    src={photo.image_url}
-                    alt={photo.proyecto_nombre}
+                    src={photo.url_foto}
+                    alt={photo.nombre_proyecto}
                     className="w-full h-36 object-cover"
                     loading="lazy"
                   />
                   <div className="p-2">
-                    <p className="text-xs font-medium text-gray-700 truncate">{photo.proyecto_nombre}</p>
-                    <p className="text-xs text-gray-400 truncate">{photo.uploaded_by}</p>
+                    <p className="text-xs font-medium text-gray-700 truncate">{photo.nombre_proyecto}</p>
                     <p className="text-xs text-gray-300 mt-0.5">
                       {new Date(photo.created_at).toLocaleDateString()}
                     </p>
