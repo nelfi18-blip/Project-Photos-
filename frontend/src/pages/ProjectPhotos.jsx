@@ -6,6 +6,7 @@ export default function ProjectPhotos() {
   const [email, setEmail] = useState('');
   const [uploading, setUploading] = useState(false);
   const [projectName, setProjectName] = useState('');
+  const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
