@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Projects from "./pages/Projects";
 import Gallery from "./pages/Gallery";
 import ShareGallery from "./pages/ShareGallery";
- copilot/create-fotos-proyectos-table
 import FotosPage from "./pages/FotosPage";
+import ProjectPhotos from "./pages/ProjectPhotos";
 import { supabase } from "./services/supabase";
 
 // Handles the magic-link redirect from Supabase
@@ -18,8 +18,6 @@ function AuthCallback() {
   }, [navigate]);
   return <div role="status" aria-live="polite" className="text-center mt-20 text-gray-400">Signing you in…</div>;
 }
-import ProjectPhotos from "./pages/ProjectPhotos";
- main
 
 const PrivateRoute = ({ children }) => {
   return localStorage.getItem("token") ? children : <Navigate to="/login" />;
@@ -32,6 +30,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/fotos" element={<FotosPage />} />
+        <Route path="/project-photos" element={<ProjectPhotos />} />
         <Route path="/share/:token" element={<ShareGallery />} />
         <Route
           path="/projects"
@@ -49,12 +48,7 @@ export default function App() {
             </PrivateRoute>
           }
         />
- copilot/create-fotos-proyectos-table
         <Route path="*" element={<Navigate to="/login" />} />
-
-        <Route path="/project-photos" element={<ProjectPhotos />} />
-        <Route path="*" element={<Navigate to="/projects" />} />
- main
       </Routes>
     </BrowserRouter>
   );
