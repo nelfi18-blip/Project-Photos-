@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
- copilot/create-fotos-proyectos-table
-
-import { API } from "../services/api";
- main
 import { supabase } from "../services/supabase";
 
 export default function Login() {
@@ -16,7 +12,6 @@ export default function Login() {
   const handleMagicLink = async (e) => {
     e.preventDefault();
     setError("");
- copilot/create-fotos-proyectos-table
     setLoading(true);
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
@@ -27,28 +22,6 @@ export default function Login() {
       setError(err.message);
     } else {
       setSent(true);
-
-    try {
-      const res = await fetch(`${API}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      });
-      if (!res.ok) {
-        setError("Invalid credentials");
-        return;
-      }
-      const data = await res.json();
-      localStorage.setItem("token", data.token);
-      try {
-        await supabase.auth.signInWithPassword({ email, password });
-      } catch {
-        // Supabase session is best-effort; backend auth already succeeded
-      }
-      navigate("/projects");
-    } catch {
-      setError("Connection error");
- main
     }
   };
 
